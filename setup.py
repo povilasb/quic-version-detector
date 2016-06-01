@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='quic-version-detector',
-    version='0.1.1',
+    version='0.1.2',
     description='Simple tool to query QUIC servers for their supported versions.',
     long_description=open('README.rst').read(),
     url='https://github.com/povilasb/quic-version-detector',
