@@ -25,7 +25,7 @@ def dummy_version_packet():
         quic.Packet
     """
     return quic.Packet(public_flags='\x0d',
-        connection_id='\x0d\x01\x02\x03\x04\x05\x06\x07\x08', version='\Q012')
+        connection_id='\x01\x02\x03\x04\x05\x06\x07\x08', version='\Q012')
 
 
 def main():
