@@ -16,18 +16,6 @@ def print_results(host, port ,version_negotation_packet):
         print('    ', version)
 
 
-def dummy_version_packet():
-    """Constructs a packet with a dummy version.
-
-    Such packet makes the server return "Version Negotation Packet".
-
-    Returns:
-        quic.Packet
-    """
-    return quic.Packet(public_flags='\x0d',
-        connection_id='\x01\x02\x03\x04\x05\x06\x07\x08', version='Q012')
-
-
 def main():
     """Main entry point."""
     args = cli.parse_args(sys.argv[1:])
@@ -37,9 +25,8 @@ def main():
     print_results(
         args.host,
         args.port,
-        quic.parse_response(
-            net.send_recv_packet(server_addr, args.port, dummy_version_packet())
-        )
+        quic.parse_response(net.send_recv_packet(
+            server_addr, args.port, quic.dummy_version_packet()))
     )
 
 

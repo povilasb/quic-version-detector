@@ -48,3 +48,15 @@ def parse_response(buff):
         connection_id=str(buff[1:9]),
         supported_versions=supported_versions,
     )
+
+
+def dummy_version_packet():
+    """Constructs a packet with a dummy version.
+
+    Such packet makes the server return "Version Negotation Packet".
+
+    Returns:
+        quic.Packet
+    """
+    return Packet(public_flags='\x0d',
+        connection_id='\x01\x02\x03\x04\x05\x06\x07\x08', version='Q012')
