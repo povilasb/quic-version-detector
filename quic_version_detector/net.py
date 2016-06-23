@@ -21,6 +21,21 @@ def send_recv_packet(addr, port, packet):
     return buff
 
 
+def parse_hostname_ip(addrinfo):
+    """Gets IP address from sock.getaddrinfo result.
+
+    Returns:
+        str: IP address to which some hostname resolves.
+    """
+    if len(addrinfo) == 0:
+        return None
+
+    _, _, _, _, socket_addr = addrinfo[0]
+    ip_addr, _ = socket_addr
+
+    return ip_addr
+
+
 def resolve_hostname(hostname, port=None):
     """DNS resolve hostname.
 
@@ -33,13 +48,8 @@ def resolve_hostname(hostname, port=None):
         string: IP address used to connect to the specified hostname.
     """
     try:
-        res = socket.getaddrinfo(hostname, port, socket.AF_INET, socket.SOCK_DGRAM)
-        if len(res) == 0:
-            return None
-
-        _, _, _, _, socket_addr = res[0]
-        ip_addr, _ = socket_addr
-
-        return ip_addr
+        return parse_hostname_ip(
+            socket.getaddrinfo(hostname, port, socket.AF_INET, socket.SOCK_DGRAM)
+        )
     except socket.gaierror:
         return None
