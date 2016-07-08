@@ -43,6 +43,15 @@ class UdpHandler:
         loop.stop()
 
 
+def stop_event_loop(event_loop, timeout):
+    """Terminates event loop after the specified timeout."""
+    def timeout_handler():
+        event_loop.stop()
+
+        print('Timeout\nExiting...')
+    event_loop.call_later(timeout, timeout_handler)
+
+
 def main():
     """Main entry point."""
     args = cli.parse_args(sys.argv[1:])
@@ -55,8 +64,9 @@ def main():
         lambda: UdpHandler(args.host, args.port),
         remote_addr=(server_addr, args.port)
     )
-
     event_loop.run_until_complete(connect)
+
+    stop_event_loop(event_loop, 10)
     event_loop.run_forever()
 
 
