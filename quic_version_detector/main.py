@@ -17,6 +17,7 @@ def print_results(host, port ,version_negotation_packet):
         print('    ', version)
 
 class UdpHandler:
+    query_count = 10
 
     def __init__(self, target_hostname, target_port):
         self.target_hostname = target_hostname
@@ -24,7 +25,9 @@ class UdpHandler:
 
     def connection_made(self, transport):
         self.transport = transport
-        self.transport.sendto(quic.dummy_version_packet().to_buff())
+
+        for _ in range(self.query_count):
+            self.transport.sendto(quic.dummy_version_packet().to_buff())
 
     def datagram_received(self, data, addr):
         print_results(
