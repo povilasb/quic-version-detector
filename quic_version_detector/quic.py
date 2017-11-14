@@ -17,8 +17,8 @@ class Packet:
         Returns:
             str: QUIC packet encoded to ascii string.
         """
-        packet = self.public_flags + self.connection_id + self.version + '\x01'
-        return packet.encode('ascii')
+        return self.public_flags + \
+            self.connection_id + self.version + bytes.fromhex('01')
 
 
 class VersionNegotationPacket:
@@ -58,5 +58,6 @@ def dummy_version_packet():
     Returns:
         quic.Packet
     """
-    return Packet(public_flags='\x0d',
-        connection_id='\x01\x02\x03\x04\x05\x06\x07\x08', version='Q012')
+    return Packet(public_flags=bytes.fromhex('0d'),
+                  connection_id=bytes.fromhex('0102030405060708'),
+                  version=bytes.fromhex('0a0a0a0a'))
