@@ -17,7 +17,7 @@ class Packet:
     def to_buff(self):
         """
         Returns:
-            str: QUIC packet encoded to ascii string.
+            bytes: QUIC packet encoded as bytes.
         """
         return self.public_flags + \
             self.connection_id + self.version + bytes.fromhex('01')
