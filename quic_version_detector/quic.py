@@ -1,5 +1,7 @@
 """QUIC protocol related facilities."""
 
+import random
+
 
 class Packet:
     """QUIC packet class.
@@ -58,6 +60,7 @@ def dummy_version_packet():
     Returns:
         quic.Packet
     """
+    connection_id = bytes([random.getrandbits(8) for _ in range(8)])
     return Packet(public_flags=bytes.fromhex('0d'),
-                  connection_id=bytes.fromhex('0102030405060708'),
+                  connection_id=connection_id,
                   version=bytes.fromhex('0a0a0a0a'))
