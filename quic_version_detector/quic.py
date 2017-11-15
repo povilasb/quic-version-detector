@@ -9,15 +9,16 @@ class Packet:
     Used to send queries to server.
     """
 
-    def __init__(self, public_flags, connection_id, version):
+    def __init__(self, public_flags: bytes, connection_id: bytes,
+                 version: bytes) -> None:
         self.public_flags = public_flags
         self.connection_id = connection_id
         self.version = version
 
-    def to_buff(self):
+    def to_buff(self) -> bytes:
         """
         Returns:
-            bytes: QUIC packet encoded as bytes.
+            QUIC packet encoded as bytes.
         """
         return self.public_flags + \
             self.connection_id + self.version + bytes.fromhex('01')
@@ -32,14 +33,11 @@ class VersionNegotationPacket:
         self.supported_versions = supported_versions
 
 
-def parse_response(buff):
+def parse_response(buff: bytes) -> VersionNegotationPacket:
     """Parses QUIC response.
 
     Args:
-        buff (bytes): data received from the server - UDP packet.
-
-    Returns:
-        VersionNegotationPacket
+        buff: data received from the server - UDP packet.
     """
     versions = buff[9:]
     supported_versions = [versions[i:i+4].decode('ascii') \
@@ -52,7 +50,7 @@ def parse_response(buff):
     )
 
 
-def dummy_version_packet():
+def dummy_version_packet() -> Packet:
     """Constructs a packet with a dummy version.
 
     Such packet makes the server return "Version Negotation Packet".

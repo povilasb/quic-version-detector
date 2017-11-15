@@ -1,18 +1,17 @@
 import socket
 
+from . import quic
+
 
 BIND_PORT = 5467
 RECV_PACKET_SIZE = 1400
 
 
-def send_recv_packet(addr, port, packet):
+def send_recv_packet(addr: str, port: int, packet: quic.Packet) -> bytes:
     """Sends a UDP packet and waits for response.
 
-    Args:
-        packet (quic.Packet)
-
     Returns:
-        bytes: response from the server.
+        response from the server.
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(('0.0.0.0', BIND_PORT))
@@ -21,11 +20,11 @@ def send_recv_packet(addr, port, packet):
     return buff
 
 
-def parse_hostname_ip(addrinfo):
+def parse_hostname_ip(addrinfo) -> str:
     """Gets IP address from sock.getaddrinfo result.
 
     Returns:
-        str: IP address to which some hostname resolves.
+        IP address to which some hostname resolves.
     """
     if len(addrinfo) == 0:
         return None
@@ -36,16 +35,16 @@ def parse_hostname_ip(addrinfo):
     return ip_addr
 
 
-def resolve_hostname(hostname, port=None):
+def resolve_hostname(hostname: str, port: int=None) -> str:
     """DNS resolve hostname.
 
     Args:
-        hostname (string): hostname to get IP address for.
-        port (int): optional. Used to hint what DNS entry we're looking
+        hostname: hostname to get IP address for.
+        port: optional. Used to hint what DNS entry we're looking
             for.
 
     Returns:
-        string: IP address used to connect to the specified hostname.
+        IP address used to connect to the specified hostname.
     """
     try:
         return parse_hostname_ip(
