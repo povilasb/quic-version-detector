@@ -1,5 +1,7 @@
 """QUIC protocol related facilities."""
 
+import random
+
 
 class Packet:
     """QUIC packet class.
@@ -15,10 +17,10 @@ class Packet:
     def to_buff(self):
         """
         Returns:
-            str: QUIC packet encoded to ascii string.
+            bytes: QUIC packet encoded as bytes.
         """
-        packet = self.public_flags + self.connection_id + self.version + '\x01'
-        return packet.encode('ascii')
+        return self.public_flags + \
+            self.connection_id + self.version + bytes.fromhex('01')
 
 
 class VersionNegotationPacket:
@@ -58,5 +60,7 @@ def dummy_version_packet():
     Returns:
         quic.Packet
     """
-    return Packet(public_flags='\x0d',
-        connection_id='\x01\x02\x03\x04\x05\x06\x07\x08', version='Q012')
+    connection_id = bytes([random.getrandbits(8) for _ in range(8)])
+    return Packet(public_flags=bytes.fromhex('0d'),
+                  connection_id=connection_id,
+                  version=bytes.fromhex('0a0a0a0a'))

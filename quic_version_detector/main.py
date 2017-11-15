@@ -4,7 +4,7 @@ import asyncio
 from quic_version_detector import quic, net, cli
 
 
-def print_results(host, port ,version_negotation_packet):
+def print_results(host, port, version_negotiation_packet):
     """Prints retrieved results.
 
     Args:
@@ -13,7 +13,7 @@ def print_results(host, port ,version_negotation_packet):
         version_negotation_packet (quic.VersionNegotationPacket)
     """
     print('"{}:{}" supported versions:'.format(host, port))
-    for version in version_negotation_packet.supported_versions:
+    for version in version_negotiation_packet.supported_versions:
         print('    ', version)
 
 class UdpHandler:
