@@ -1,4 +1,8 @@
-"""QUIC protocol related facilities."""
+"""QUIC protocol related facilities.
+
+See "QUIC Wire Layout Specification":
+    https://docs.google.com/document/d/1WJvyZflAO2pq77yOLbp9NsGjC1CHetAXV8I0fQe-B_U/edit#heading=h.qnqgv8t864a6
+"""
 
 import random
 
